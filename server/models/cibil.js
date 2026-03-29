@@ -1,8 +1,16 @@
 const mongoose = require("mongoose");
 
 const cibilSchema = new mongoose.Schema({
-  pan: String,
-  name: String,
+  pan: {
+    type: String,
+    required: true,
+    unique: true,
+    index: true,
+  },
+  name: {
+    type: String,
+    required: true,
+  },
   score: Number,
   report: String,
   createdAt: {

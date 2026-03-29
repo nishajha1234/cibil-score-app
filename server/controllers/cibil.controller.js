@@ -11,39 +11,76 @@ const checkCibil = async (req, res) => {
   try {
     const { pan, name } = req.body;
 
-    // Validation
+    // ✅ Basic validation
     if (!pan || !name) {
-      return res.status(400).json({ message: "Name and PAN are required" });
+      return res.status(400).json({
+        message: "Name and PAN are required",
+      });
     }
 
-    // Normalize PAN
+    // ✅ Normalize inputs
     const normalizedPan = pan.toUpperCase().trim();
+    const normalizedName = name.trim().replace(/\s+/g, " ");
 
+    // 🔍 Find existing record
     const existing = await Cibil.findOne({ pan: normalizedPan });
 
+    // ===========================
+    // 🔒 SECURITY CHECK (NEW)
+    // ===========================
     if (existing) {
+      if (
+        existing.name.toLowerCase() !== normalizedName.toLowerCase()
+      ) {
+        return res.status(400).json({
+          message: "Name does not match with this PAN",
+        });
+      }
+
+      // ===========================
+      // ⏳ CACHING LOGIC
+      // ===========================
       const diffDays =
         (Date.now() - new Date(existing.createdAt)) /
         (1000 * 60 * 60 * 24);
 
       if (diffDays < 5) {
-        return res.json({ source: "cache", data: existing });
+        return res.json({
+          source: "cache",
+          data: existing,
+        });
       }
     }
 
+    // ===========================
+    // 🎲 GENERATE NEW SCORE
+    // ===========================
     const mockData = generateScore();
 
+    // ===========================
+    // 💾 UPSERT DATA
+    // ===========================
     const newEntry = await Cibil.findOneAndUpdate(
       { pan: normalizedPan },
-      { ...mockData, pan: normalizedPan, name, createdAt: Date.now() },
+      {
+        pan: normalizedPan,
+        name: normalizedName,
+        ...mockData,
+        createdAt: Date.now(),
+      },
       { upsert: true, new: true }
     );
 
-    res.json({ source: "fresh", data: newEntry });
+    return res.json({
+      source: "fresh",
+      data: newEntry,
+    });
 
   } catch (error) {
     console.error("CIBIL API Error:", error.message);
-    res.status(500).json({ message: "Server error" });
+    return res.status(500).json({
+      message: "Server error",
+    });
   }
 };
 

@@ -41,6 +41,7 @@ function App() {
     if (!validateForm()) return;
 
     setLoading(true);
+    setResult(null);
 
     try {
       const res = await axios.post(
@@ -54,15 +55,14 @@ function App() {
         err.response?.data?.message ||
         "Something went wrong. Please try again."
       );
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
   };
 
   return (
     <div className="h-screen bg-gradient-to-br from-[#020617] via-[#0f172a] to-[#020617] text-white relative overflow-hidden">
 
-      {/* BACKGROUND GLOW */}
       <div className="absolute w-[500px] h-[500px] bg-blue-600 opacity-20 rounded-full blur-3xl top-[-150px] left-[-150px] animate-pulse"></div>
       <div className="absolute w-[400px] h-[400px] bg-purple-600 opacity-20 rounded-full blur-3xl bottom-[-120px] right-[-120px] animate-pulse"></div>
 
@@ -164,11 +164,10 @@ function App() {
                   )}
                 </button>
 
-                {/* ERROR */}
                 {apiError && (
-                  <p className="text-red-400 text-sm mt-3 text-center">
+                  <div className="mt-4 p-3 bg-red-500/10 border border-red-400 rounded-xl text-sm text-red-300 text-center animate-fadeIn">
                     {apiError}
-                  </p>
+                  </div>
                 )}
               </>
             ) : (
@@ -185,19 +184,23 @@ function App() {
                   {result.data.score}
                 </div>
 
-                {/* ✅ Reduced gap here */}
                 <p className="text-lg font-medium leading-tight mb-1">
                   {getScoreText(result.data.score)}
                 </p>
 
-                {/* ✅ Very close to above text */}
+
                 <p className="text-xs text-gray-400">
                   {result.source === "cache"
                     ? `Previously retrieved • ${new Date(result.data.createdAt).toLocaleString()}`
                     : "Real-time credit evaluation"}
                 </p>
 
-                {/* ✅ Increased gap before button */}
+                {result.source === "cache" && (
+                  <p className="text-green-400 text-xs mt-1">
+                    ⚡ Fast response using cached data
+                  </p>
+                )}
+
                 <button
                   onClick={() => {
                     setResult(null);
