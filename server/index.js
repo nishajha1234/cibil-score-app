@@ -1,5 +1,7 @@
 const express = require("express");
 const connectDB = require("./config/db");
+const cibilRoutes = require("./routes/cibil");
+
 require("dotenv").config();
 
 const app = express();
@@ -7,6 +9,7 @@ const app = express();
 connectDB();
 
 app.use(express.json());
+app.use("/api/cibil", cibilRoutes);
 
 app.get("/", (req, res) => {
   res.send("Server running");
