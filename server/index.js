@@ -13,9 +13,10 @@ connectDB();
 app.use(cors({
   origin: [
     "http://localhost:3000",
-    "https://cibil-score.vercel.app"
+    "https://cibil-score-app.vercel.app"
   ],
-  methods: ["GET", "POST"],
+  methods: ["GET", "POST", "OPTIONS"],
+  allowedHeaders: ["Content-Type"],
   credentials: true
 }));
 
