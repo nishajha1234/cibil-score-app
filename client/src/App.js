@@ -43,7 +43,6 @@ function App() {
     setLoading(true);
 
     try {
-      // ✅ ENV based API URL (UPDATED)
       const res = await axios.post(
         `${process.env.REACT_APP_API_URL}/api/cibil/check`,
         form
@@ -173,44 +172,44 @@ function App() {
                 )}
               </>
             ) : (
-<div className="text-center animate-fadeIn">
-  <h3 className="text-lg text-gray-300 mb-2">
-    Your Credit Score
-  </h3>
+              <div className="text-center animate-fadeIn">
+                <h3 className="text-lg text-gray-300 mb-2">
+                  Your Credit Score
+                </h3>
 
-  <div
-    className={`text-7xl font-extrabold mb-6 ${getScoreColor(
-      result.data.score
-    )}`}
-  >
-    {result.data.score}
-  </div>
+                <div
+                  className={`text-7xl font-extrabold mb-6 ${getScoreColor(
+                    result.data.score
+                  )}`}
+                >
+                  {result.data.score}
+                </div>
 
-  {/* ✅ Reduced gap here */}
-  <p className="text-lg font-medium leading-tight mb-1">
-    {getScoreText(result.data.score)}
-  </p>
+                {/* ✅ Reduced gap here */}
+                <p className="text-lg font-medium leading-tight mb-1">
+                  {getScoreText(result.data.score)}
+                </p>
 
-  {/* ✅ Very close to above text */}
-  <p className="text-xs text-gray-400">
-    {result.source === "cache"
-      ? `Previously retrieved • ${new Date(result.data.createdAt).toLocaleString()}`
-      : "Real-time credit evaluation"}
-  </p>
+                {/* ✅ Very close to above text */}
+                <p className="text-xs text-gray-400">
+                  {result.source === "cache"
+                    ? `Previously retrieved • ${new Date(result.data.createdAt).toLocaleString()}`
+                    : "Real-time credit evaluation"}
+                </p>
 
-  {/* ✅ Increased gap before button */}
-  <button
-    onClick={() => {
-      setResult(null);
-      setForm({ name: "", pan: "" });
-      setErrors({});
-      setApiError("");
-    }}
-    className="mt-6 px-6 py-2 bg-white/10 hover:bg-white/20 rounded-xl text-sm transition"
-  >
-    Check Another
-  </button>
-</div>
+                {/* ✅ Increased gap before button */}
+                <button
+                  onClick={() => {
+                    setResult(null);
+                    setForm({ name: "", pan: "" });
+                    setErrors({});
+                    setApiError("");
+                  }}
+                  className="mt-6 px-6 py-2 bg-white/10 hover:bg-white/20 rounded-xl text-sm transition"
+                >
+                  Check Another
+                </button>
+              </div>
             )}
 
           </div>
