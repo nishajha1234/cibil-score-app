@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const Cibil = require("../models/Cibil");
+const Cibil = require("../models/cibil");
 
 const generateScore = () => {
   return {
