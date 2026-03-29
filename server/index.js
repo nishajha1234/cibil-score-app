@@ -15,6 +15,7 @@ app.use(cors({
     "http://localhost:3000",
     "https://cibil-score.vercel.app"
   ],
+  methods: ["GET", "POST"],
   credentials: true
 }));
 
