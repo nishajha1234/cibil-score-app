@@ -1,23 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import axios from "axios";
 
 function App() {
+  const [form, setForm] = useState({ name: "", pan: "" });
+  const [result, setResult] = useState(null);
+
+  const handleSubmit = async () => {
+    const res = await axios.post("http://localhost:5000/api/cibil/check", form);
+    setResult(res.data);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>CIBIL Score Checker</h1>
+
+      <input
+        placeholder="Name"
+        onChange={(e) => setForm({ ...form, name: e.target.value })}
+      />
+
+      <input
+        placeholder="PAN"
+        onChange={(e) => setForm({ ...form, pan: e.target.value })}
+      />
+
+      <button onClick={handleSubmit}>Check Score</button>
+
+      {result && (
+        <div>
+          <h2>Score: {result.data.score}</h2>
+          <p>{result.data.report}</p>
+          <p>Source: {result.source}</p>
+        </div>
+      )}
     </div>
   );
 }
