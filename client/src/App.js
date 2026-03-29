@@ -126,7 +126,7 @@ function App() {
                 <div className="mb-6">
                   <input
                     value={form.pan}
-                    className={`w-full p-3 rounded-xl bg-white/10 border ${errors.pan ? "border-red-400" : "border-white/20"
+                    className={`w-full p-3 rounded-xl bg-white/10 border ${errors.pan || apiError ? "border-red-400" : "border-white/20"
                       } focus:ring-2 focus:ring-blue-500 outline-none transition`}
                     placeholder="PAN Number"
                     onChange={(e) => {
@@ -135,16 +135,20 @@ function App() {
                         pan: e.target.value.toUpperCase(),
                       });
                       setErrors({ ...errors, pan: "" });
+                      setApiError(""); // clear API error on typing
                     }}
                   />
 
-                  {/* ✅ PAN Hint Added */}
                   <p className="text-xs text-gray-400 mt-1">
                     Format: ABCDE1234F
                   </p>
 
                   {errors.pan && (
                     <p className="text-red-400 text-sm mt-1">{errors.pan}</p>
+                  )}
+
+                  {apiError && (
+                    <p className="text-red-400 text-sm mt-1">{apiError}</p>
                   )}
                 </div>
 
@@ -164,11 +168,6 @@ function App() {
                   )}
                 </button>
 
-                {apiError && (
-                  <div className="mt-4 p-3 bg-red-500/10 border border-red-400 rounded-xl text-sm text-red-300 text-center animate-fadeIn">
-                    {apiError}
-                  </div>
-                )}
               </>
             ) : (
               <div className="text-center animate-fadeIn">
