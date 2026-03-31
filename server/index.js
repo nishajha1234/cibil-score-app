@@ -2,7 +2,7 @@ const express = require("express");
 const connectDB = require("./config/db");
 const cibilRoutes = require("./routes/cibil");
 const cors = require("cors");
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 6000;
 
 require("dotenv").config();
 

@@ -22,7 +22,6 @@ function App() {
 
   const validateForm = () => {
     const newErrors = {};
-
     if (!form.name.trim()) newErrors.name = "Name is required";
 
     if (!form.pan.trim()) {
@@ -37,7 +36,6 @@ function App() {
 
   const handleSubmit = async () => {
     setApiError("");
-
     if (!validateForm()) return;
 
     setLoading(true);
@@ -48,7 +46,6 @@ function App() {
         `${process.env.REACT_APP_API_URL}/api/cibil/check`,
         form
       );
-
       setResult(res.data);
     } catch (err) {
       setApiError(
@@ -61,56 +58,53 @@ function App() {
   };
 
   return (
-    <div className="h-screen bg-gradient-to-br from-[#020617] via-[#0f172a] to-[#020617] text-white relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-[#020617] via-[#0f172a] to-[#020617] text-white relative overflow-hidden">
 
-      <div className="absolute w-[500px] h-[500px] bg-blue-600 opacity-20 rounded-full blur-3xl top-[-150px] left-[-150px] animate-pulse"></div>
-      <div className="absolute w-[400px] h-[400px] bg-purple-600 opacity-20 rounded-full blur-3xl bottom-[-120px] right-[-120px] animate-pulse"></div>
+      <div className="absolute w-[250px] sm:w-[400px] lg:w-[500px] h-[250px] sm:h-[400px] lg:h-[500px] bg-blue-600 opacity-20 rounded-full blur-3xl top-[-100px] left-[-100px] animate-pulse"></div>
+      <div className="absolute w-[200px] sm:w-[300px] lg:w-[400px] h-[200px] sm:h-[300px] lg:h-[400px] bg-purple-600 opacity-20 rounded-full blur-3xl bottom-[-80px] right-[-80px] animate-pulse"></div>
 
-      {/* NAVBAR */}
-      <div className="flex justify-between items-center px-8 py-4 backdrop-blur-xl bg-white/5 border-b border-white/10">
-        <h1 className="text-xl font-semibold tracking-wide text-blue-400">
+      <div className="flex justify-between items-center px-4 sm:px-6 lg:px-8 py-3 sm:py-4 backdrop-blur-xl bg-white/5 border-b border-white/10">
+        <h1 className="text-lg sm:text-xl font-semibold tracking-wide text-blue-400">
           DirectCredit
         </h1>
-        <span className="text-sm text-gray-400">Credit Intelligence</span>
+        <span className="text-xs sm:text-sm text-gray-400">
+          Credit Intelligence
+        </span>
       </div>
 
-      {/* MAIN */}
-      <div className="h-[calc(100vh-70px)] flex items-center justify-center px-6">
-        <div className="max-w-6xl w-full grid md:grid-cols-2 gap-12 items-center">
+      <div className="flex items-center justify-center min-h-[calc(100vh-80px)] px-4">
+        <div className="w-full max-w-4xl lg:max-w-5xl xl:max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-16 items-center">
 
-          {/* LEFT */}
-          <div className="space-y-6">
-            <h2 className="text-4xl font-bold leading-tight">
+          <div className="space-y-4 sm:space-y-6 text-center md:text-left">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold leading-tight">
               Know Your Financial <br />
               <span className="text-blue-400">Trust Score</span>
             </h2>
 
-            <p className="text-gray-400">
+            <p className="text-sm sm:text-base text-gray-400">
               Instantly analyze your credit profile with a secure and intelligent system.
             </p>
 
-            <div className="space-y-2 text-gray-300 text-sm">
+            <div className="space-y-1 sm:space-y-2 text-gray-300 text-xs sm:text-sm">
               <p>✔ No impact on score</p>
               <p>✔ AI-powered insights</p>
               <p>✔ Bank-grade security</p>
             </div>
           </div>
 
-          {/* CARD */}
-          <div className="relative backdrop-blur-2xl bg-white/10 border border-white/20 p-8 rounded-3xl shadow-[0_0_40px_rgba(0,0,0,0.5)]">
+          <div className="relative backdrop-blur-2xl bg-white/10 border border-white/20 p-4 sm:p-6 lg:p-8 rounded-2xl sm:rounded-3xl shadow-[0_0_40px_rgba(0,0,0,0.5)]">
 
             {!result ? (
               <>
-                <h3 className="text-xl font-semibold mb-6 text-center">
+                <h3 className="text-base sm:text-lg xl:text-xl font-semibold mb-4 sm:mb-6 text-center">
                   Enter Your Details
                 </h3>
 
-                {/* NAME */}
-                <div className="mb-6">
+                <div className="mb-4 sm:mb-6">
                   <input
                     value={form.name}
-                    className={`w-full p-3 rounded-xl bg-white/10 border ${errors.name ? "border-red-400" : "border-white/20"
-                      } focus:ring-2 focus:ring-blue-500 outline-none transition`}
+                    className={`w-full p-2.5 sm:p-3 rounded-lg sm:rounded-xl bg-white/10 border ${errors.name ? "border-red-400" : "border-white/20"
+                      } focus:ring-2 focus:ring-blue-500 outline-none transition text-sm sm:text-base`}
                     placeholder="Full Name"
                     onChange={(e) => {
                       setForm({ ...form, name: e.target.value });
@@ -118,16 +112,19 @@ function App() {
                     }}
                   />
                   {errors.name && (
-                    <p className="text-red-400 text-sm mt-1">{errors.name}</p>
+                    <p className="text-red-400 text-xs sm:text-sm mt-1">
+                      {errors.name}
+                    </p>
                   )}
                 </div>
 
-                {/* PAN */}
-                <div className="mb-6">
+                <div className="mb-4 sm:mb-6">
                   <input
                     value={form.pan}
-                    className={`w-full p-3 rounded-xl bg-white/10 border ${errors.pan || apiError ? "border-red-400" : "border-white/20"
-                      } focus:ring-2 focus:ring-blue-500 outline-none transition`}
+                    className={`w-full p-2.5 sm:p-3 rounded-lg sm:rounded-xl bg-white/10 border ${errors.pan || apiError
+                        ? "border-red-400"
+                        : "border-white/20"
+                      } focus:ring-2 focus:ring-blue-500 outline-none transition text-sm sm:text-base`}
                     placeholder="PAN Number"
                     onChange={(e) => {
                       setForm({
@@ -135,28 +132,31 @@ function App() {
                         pan: e.target.value.toUpperCase(),
                       });
                       setErrors({ ...errors, pan: "" });
-                      setApiError(""); // clear API error on typing
+                      setApiError("");
                     }}
                   />
 
-                  <p className="text-xs text-gray-400 mt-1">
+                  <p className="text-[10px] sm:text-xs text-gray-400 mt-1">
                     Format: ABCDE1234F
                   </p>
 
                   {errors.pan && (
-                    <p className="text-red-400 text-sm mt-1">{errors.pan}</p>
+                    <p className="text-red-400 text-xs sm:text-sm mt-1">
+                      {errors.pan}
+                    </p>
                   )}
 
                   {apiError && (
-                    <p className="text-red-400 text-sm mt-1">{apiError}</p>
+                    <p className="text-red-400 text-xs sm:text-sm mt-1">
+                      {apiError}
+                    </p>
                   )}
                 </div>
 
-                {/* BUTTON */}
                 <button
                   onClick={handleSubmit}
                   disabled={loading}
-                  className="w-full bg-blue-500 hover:bg-blue-600 py-3 rounded-xl font-medium transition flex items-center justify-center gap-2 disabled:opacity-50"
+                  className="w-full bg-blue-500 hover:bg-blue-600 py-2.5 sm:py-3 rounded-lg sm:rounded-xl font-medium transition flex items-center justify-center gap-2 disabled:opacity-50 text-sm sm:text-base"
                 >
                   {loading ? (
                     <>
@@ -171,31 +171,32 @@ function App() {
               </>
             ) : (
               <div className="text-center animate-fadeIn">
-                <h3 className="text-lg text-gray-300 mb-2">
+                <h3 className="text-sm sm:text-lg text-gray-300 mb-2">
                   Your Credit Score
                 </h3>
 
                 <div
-                  className={`text-7xl font-extrabold mb-6 ${getScoreColor(
+                  className={`text-5xl sm:text-6xl lg:text-7xl font-extrabold mb-4 sm:mb-6 ${getScoreColor(
                     result.data.score
                   )}`}
                 >
                   {result.data.score}
                 </div>
 
-                <p className="text-lg font-medium leading-tight mb-1">
+                <p className="text-sm sm:text-lg font-medium leading-tight mb-1">
                   {getScoreText(result.data.score)}
                 </p>
 
-
-                <p className="text-xs text-gray-400">
+                <p className="text-[10px] sm:text-xs text-gray-400">
                   {result.source === "cache"
-                    ? `Previously retrieved • ${new Date(result.data.createdAt).toLocaleString()}`
+                    ? `Previously retrieved • ${new Date(
+                      result.data.createdAt
+                    ).toLocaleString()}`
                     : "Real-time credit evaluation"}
                 </p>
 
                 {result.source === "cache" && (
-                  <p className="text-green-400 text-xs mt-1">
+                  <p className="text-green-400 text-[10px] sm:text-xs mt-1">
                     ⚡ Fast response using cached data
                   </p>
                 )}
@@ -207,7 +208,7 @@ function App() {
                     setErrors({});
                     setApiError("");
                   }}
-                  className="mt-6 px-6 py-2 bg-white/10 hover:bg-white/20 rounded-xl text-sm transition"
+                  className="mt-4 sm:mt-6 px-4 sm:px-6 py-2 bg-white/10 hover:bg-white/20 rounded-lg sm:rounded-xl text-xs sm:text-sm transition"
                 >
                   Check Another
                 </button>
