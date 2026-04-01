@@ -11,23 +11,17 @@ const checkCibil = async (req, res) => {
   try {
     const { pan, name } = req.body;
 
-    // ✅ Basic validation
     if (!pan || !name) {
       return res.status(400).json({
         message: "Name and PAN are required",
       });
     }
 
-    // ✅ Normalize inputs
     const normalizedPan = pan.toUpperCase().trim();
     const normalizedName = name.trim().replace(/\s+/g, " ");
 
-    // 🔍 Find existing record
     const existing = await Cibil.findOne({ pan: normalizedPan });
 
-    // ===========================
-    // 🔒 SECURITY CHECK (NEW)
-    // ===========================
     if (existing) {
       if (
         existing.name.toLowerCase() !== normalizedName.toLowerCase()
@@ -37,9 +31,6 @@ const checkCibil = async (req, res) => {
         });
       }
 
-      // ===========================
-      // ⏳ CACHING LOGIC
-      // ===========================
       const diffDays =
         (Date.now() - new Date(existing.createdAt)) /
         (1000 * 60 * 60 * 24);
@@ -52,14 +43,8 @@ const checkCibil = async (req, res) => {
       }
     }
 
-    // ===========================
-    // 🎲 GENERATE NEW SCORE
-    // ===========================
     const mockData = generateScore();
 
-    // ===========================
-    // 💾 UPSERT DATA
-    // ===========================
     const newEntry = await Cibil.findOneAndUpdate(
       { pan: normalizedPan },
       {

@@ -1,43 +1,84 @@
-# CIBIL Score Checker
+# 📊 CIBIL Score Checker
 
 This is a full-stack web app where a user can check their credit score by entering their name and PAN number.
 
-The project simulates how a real credit system works, including reusing previously generated data if the same user checks again within a few days.
+The project simulates how real systems (like TransUnion CIBIL) work, including caching previously generated data to improve performance and user experience.
 
 ---
 
 ## 🔗 Live Demo
 
-Frontend: https://your-app.vercel.app
-Backend: https://your-app.onrender.com
+Frontend: https://your-app.vercel.app  
+Backend: https://your-app.onrender.com  
 
 ---
 
 ## 🧠 What this project does
 
-* User enters Name and PAN
-* System generates a credit score (mocked)
-* If the same PAN is used again within 5 days, the previous result is shown
-* Shows when the data was last generated
+- User enters Name and PAN
+- System generates a credit score (mocked)
+- If the same PAN is used again within **5 days**, previous result is shown
+- Displays:
+  - Credit score
+  - Category (Poor / Fair / Good / Excellent)
+  - Last generated time
 
 ---
 
 ## ⚙️ Tech Stack
 
-* Frontend: React + Tailwind CSS
-* Backend: Node.js + Express
-* Database: MongoDB
+**Frontend**
+- React.js
+- Tailwind CSS
+- Axios
+
+**Backend**
+- Node.js
+- Express.js
+
+**Database**
+- MongoDB
+- Mongoose
 
 ---
 
-## 🔁 How it works (simple)
+## 🔁 How it works (Simple Flow)
 
-1. User submits details
+1. User submits details (Name + PAN)
 2. Backend checks database:
+   - If data exists and is recent (≤ 5 days) → reuse it ✅
+   - Else → generate new score and save ❌➡️✅
+3. Frontend displays score and report
 
-   * If data exists and is recent → reuse it
-   * Else → generate new score and save
-3. Frontend displays score and message
+---
+
+## 🧠 Approach Taken
+
+- Built a **mock CIBIL system** (since real APIs are restricted)
+- Implemented **time-based caching (5 days)** to avoid unnecessary recomputation
+- Used PAN as a **unique identifier**
+- Followed **MVC structure** in backend
+- Focused on **clean UI + fast response**
+
+---
+
+## ⚙️ Assumptions Made
+
+- Credit score is mocked (range: 300–900)
+- PAN is unique per user
+- Cache validity = 5 days
+- No authentication (kept simple for demo)
+- Single collection used in database
+
+---
+
+## 🚀 Key Highlights
+
+- ✅ Real-world caching logic (important for fintech systems)
+- ✅ Reduces unnecessary API calls
+- ✅ Better performance and UX
+- ✅ Clean backend structure
+- ✅ Strong interview-ready project
 
 ---
 
@@ -48,53 +89,3 @@ Backend: https://your-app.onrender.com
 ```bash
 cd server
 npm install
-```
-
-Create `.env`:
-
-```
-MONGO_URI=your_mongo_uri
-```
-
-Run:
-
-```bash
-npm run dev
-```
-
----
-
-### Frontend
-
-```bash
-cd client
-npm install
-```
-
-Create `.env`:
-
-```
-REACT_APP_API_URL=http://localhost:5000
-```
-
-Run:
-
-```bash
-npm start
-```
-
----
-
-## 📝 Notes
-
-* Credit score is mocked (no real API used)
-* PAN is used as unique identifier
-* Focus was on logic + user experience
-
----
-
-## 👩‍💻 Author
-
-Nisha Jha
-
----
