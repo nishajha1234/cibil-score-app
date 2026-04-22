@@ -43,7 +43,7 @@ function App() {
 
     try {
       const res = await axios.post(
-        `${process.env.REACT_APP_API_URL}/api/cibil/check`,
+        `${process.env.REACT_APP_API_URL}api/cibil/check`,
         form
       );
       setResult(res.data);
